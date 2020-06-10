@@ -1,12 +1,17 @@
-let app = requre('express')();
+let app = require('express')();
 let server = require('http').Server(app);
 let io = require('socket.io')(server);
+let path = require('path')
 //username QSGRiciCpm 
 //password Cix3uY1gxc
 //host remotemysql.com
-server.listen(9202);
+server.listen(8001);
 let count = 0;
 let $ipsConnected = [];
+
+app.get('/', (req, res)=>{
+    res.sendFile(path.resolve(__dirname, 'index.html'));
+})
 
 io.on('connection', (socket) =>{
     let $ipAddress = socket.handshake.address;
