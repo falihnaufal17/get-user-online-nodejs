@@ -6,9 +6,9 @@
 
    <title>Node JS - Get Real time online users counter using socket io example</title>
 
-   <script type="text/javascript" src="https://code.jquery.com/jquery-1.4.2.min.js"></script>
+   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 
 </head>
 
@@ -20,21 +20,17 @@
 
 
 
-<script type="text/javascript">
+<script>
 
+  $(()=>{
+    var socket = io.connect('https://get-user-online.herokuapp.com');
 
+    socket.on('counter', function (data) {
 
-  var socket = io.connect('https://get-user-online.herokuapp.com');
+      $("#counter").text(data.count);
 
-
-
-  socket.on('counter', function (data) {
-
-    $("#counter").text(data.count);
-
+    })
   });
-
-
 
 </script>
 
