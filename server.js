@@ -5,7 +5,7 @@ let path = require('path')
 //username QSGRiciCpm 
 //password Cix3uY1gxc
 //host remotemysql.com
-server.listen(8001);
+server.listen(process.env.PORT);
 let count = 0;
 let $ipsConnected = [];
 
