@@ -1,34 +1,24 @@
-let app = require('express')();
-let server = require('http').Server(app);
-let io = require('socket.io')(server);
-let path = require('path')
-//username QSGRiciCpm 
-//password Cix3uY1gxc
-//host remotemysql.com
-server.listen(process.env.PORT);
-let count = 0;
-let $ipsConnected = [];
+var app = require('express')();
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 
 app.get('/', (req, res)=>{
-    res.sendFile(path.resolve(__dirname, 'index.html'));
+    res.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', (socket)=>{
+    console.log('a user connected');
+
+    socket.on('chat message', (data)=>{
+        console.log('message: ' + data);
+        io.emit('chat message', data);
+    })
+
+    socket.on('disconnect', ()=>{
+        console.log('user disconnected')
+    })
 })
 
-io.on('connection', (socket) =>{
-    let $ipAddress = socket.handshake.address;
-    if(!$ipsConnected.hasOwnProperty($ipAddress)){
-        $ipsConnected[$ipAddress] = 1;
-        count++;
-        socket.emit('counter', {count: count})
-    }
-
-    console.log("Client is connected");
-
-    /* Disconnected */
-    socket.on('disconnect', () =>{
-        if($ipsConnected.hasOwnProperty($ipAddress)){
-            delete $ipsConnected[$ipAddress];
-            count--;
-            socket.emit('counter', {count: count})
-        }
-    })
+http.listen(3000, () =>{
+    console.log('listening on *: 3000');
 })
